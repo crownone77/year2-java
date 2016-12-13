@@ -32,20 +32,39 @@ public class MultipleChoiceQuiz extends BaseQuiz {
 	}
 
 	protected boolean isValidAnswer(Question question, String answer) {
-        return answer.length() > 0;
+
+        MultipleChoiceQuestion mcq = (MultipleChoiceQuestion)question;
+
+        //to check whether answer is an integer
+        int userAns;
+        try{
+            userAns = Integer.parseInt(answer);
+        } catch (NumberFormatException e){
+            userAns = 0;
+        }
+
+        //check whether its an integer that's in the range of the possible answers
+        return (userAns > 0 && userAns <= mcq.getPossibleAnswers().size());
 	}
 
 	protected boolean isCorrectAnswer(Question question, String answer) {
+
+        //cast to multiple choice question and check if is correct answer
         MultipleChoiceQuestion q = (MultipleChoiceQuestion)question;
         return (Integer.parseInt(answer) == q.getAnswer());
 	}
 
 	protected String invalidInput(Question question) {
-        return "Your answer cannot be blank. Try again.";
+
+        //error message for wrong input and show possible inputs
+        MultipleChoiceQuestion mcq = (MultipleChoiceQuestion)question;
+        int numAns = mcq.getPossibleAnswers().size();
+        return "Your answer needs to be an integer between 1 - "+numAns+": ";
 	}
 
 	protected int getQuizSize() {
-        return 6;
+        System.out.println(allQuestions.size());
+        return allQuestions.size();
 	}
 
 	protected ArrayList<Question> getQuestions() {
@@ -53,14 +72,28 @@ public class MultipleChoiceQuiz extends BaseQuiz {
 	}
 
 	protected String getQuestionPrefix(Question question) {
-        return "QUESTION:";
+
+        //show number of possible answers
+	    MultipleChoiceQuestion mcq = (MultipleChoiceQuestion) question;
+        return "QUESTION ("+mcq.getPossibleAnswers().size()+" possible answers):";
 	}
 
 	protected String getQuestionSuffix(Question question) {
 
+        //cast for multiple choice question
         MultipleChoiceQuestion mcq = (MultipleChoiceQuestion) question;
-        List possibleAns = mcq.getPossibleAnswers();kermm
-        return "";
+        List possibleAns = mcq.getPossibleAnswers();
+
+	    String output = "\n";
+
+	    //go through list of possible answers and add to final output
+        for(int i = 0; i < possibleAns.size(); i++){
+            Object ans = possibleAns.get(i);
+            output += (i+1) + ". " + ans + "\n";
+        }
+        output += "Enter a number> ";
+
+        return output;
 	}
 
 	public static void main(String[] args) {
