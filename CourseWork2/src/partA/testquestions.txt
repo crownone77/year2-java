@@ -1,6 +1,0 @@
-Is it true that event sources (such as a JButton) can be only be registered with one event handler? no
-What is the class that all exceptions sub-class? java.lang.Exception
-Should Swing applications directly call the paintComponent() method? no
-Java has two types of stream; chain is one, what is the other? connection
-Is a child class serializable if the parent class is? yes
-how many areas does BorderLayoutManager have? 5
